@@ -1,5 +1,7 @@
 FROM alpine:3.15
-RUN apk add --no-cache nodejs npm ffmpeg
+RUN apk add --no-cache nodejs
+RUN apk add --no-cache npm
+RUN apk add --no-cache ffmpeg
 
 WORKDIR /app
 COPY index.js /app/
