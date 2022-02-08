@@ -180,7 +180,7 @@ function getkbs(param) {
                     console.log(e)
                     resolve("invaild");
                 })
-        } catch {
+        } catch (err) {
             resolve("invaild");
         }
     });
@@ -233,7 +233,7 @@ function getmbc(ch) {
                     console.log(e);
                     resolve("invaild");
                 })
-        } catch {
+        } catch (err) {
             resolve("invaild");
         }
     });
@@ -272,7 +272,7 @@ function getsbs(ch) {
                     console.log(e);
                     resolve("invaild");
                 })
-        } catch {
+        } catch (err) {
             resolve("invaild");
         }
     });
