@@ -53,7 +53,7 @@ var liveServer = http.createServer((req, resp) => {
 		
 	const token_key = urlParams['token'];
 	if(token_key == mytoken){
-		const key = urlParams['ch'];
+		const key = urlParams['keys'];
 		console.log("your input : " + key);
 
 		if (key) {
