@@ -2,6 +2,7 @@
 --RUN apk add --no-cache nodejs
 --RUN apk add --no-cache npm
 --RUN apk add --no-cache ffmpeg
+FROM ubuntu:20.04
 
 RUN apt-get update
 RUN apt-get install nodejs npm ffmpeg -y
