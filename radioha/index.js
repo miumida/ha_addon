@@ -114,12 +114,6 @@ var liveServer = http.createServer((req, resp) => {
 				resp.setHeader('Content-Type', 'text/plain; charset=utf-8');
 				resp.end('올바르지 않은 코드');
 			}
-		} else {
-
-			resp.statusCode = 403;
-			resp.setHeader('Content-Type', 'text/plain; charset=utf-8');
-			resp.end('올바르지 않은 접근');
-		}
 		}else {
 
 			resp.statusCode = 403;
