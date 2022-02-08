@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "slug": "radioha",
   "description": "Korea Intenet Radio for HA",
+  "host_network":true,
   "arch": [
     "armhf",
     "armv7",
