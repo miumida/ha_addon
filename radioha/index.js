@@ -26,8 +26,9 @@ function return_pipe(urls, resp, req) {
     xffmpeg.on("error", function(e) {
         console.log("Xsystem error: " + e);
     });
-xffmpeg.stdout.on("data",function(data) {
-});
+	
+    xffmpeg.stdout.on("data",function(data) {
+    });
 
     req.on("close", function() {
         if (xffmpeg) {
@@ -43,6 +44,7 @@ xffmpeg.stdout.on("data",function(data) {
         }
     });
 }
+
 var liveServer = http.createServer((req, resp) => {
     const urlParts = url.parse(req.url, true);
     const urlParams = urlParts.query;
@@ -51,76 +53,82 @@ var liveServer = http.createServer((req, resp) => {
 	
 	if(urlPath == "/radio"){
 		
-	const token_key = urlParams['token'];
-	if(token_key == mytoken){
-		const key = urlParams['keys'];
-		console.log("your input : " + key);
+	    const token_key = urlParams['token'];
+	    if(token_key == mytoken){
+		    const key = urlParams['keys'];
+		    console.log("your input : " + key);
 
-		if (key) {
-			const myData = data[key];
-			if (Object.hasOwnProperty.call(data, key)) { // 라디오 리스트에 key가 존재한다면?
-				if (!myData.includes('http')) {
+		    if (key) {
+			    const myData = data[key];
+			    if (Object.hasOwnProperty.call(data, key)) { // 라디오 리스트에 key가 존재한다면?
+				    if (!myData.includes('http')) {
 
-					if (myData == "kbs_lib") {
-						getkbs(key).then(function(data1) {
+					    if (myData == "kbs_lib") {
+						    getkbs(key).then(function(data1) {
 
 
-							var urls = data1;
-							if (urls != 'invaild' && urls.includes('m3u8')) {
+							    var urls = data1;
+							    if (urls != 'invaild' && urls.includes('m3u8')) {
 
-								return_pipe(urls, resp, req);
-							} else {
-								resp.statusCode = 403;
-								resp.setHeader('Content-Type', 'text/plain; charset=utf-8');
-								resp.end('호출 실패');
-							}
-						});
-					}
-					if (myData == "sbs_lib") {
-						getsbs(key).then(function(data1) {
+								    return_pipe(urls, resp, req);
+							    } else {
+							    	resp.statusCode = 403;
+							    	resp.setHeader('Content-Type', 'text/plain; charset=utf-8');
+							    	resp.end('호출 실패');
+							    }
+						    });
+					    }
+						
+					    if (myData == "sbs_lib") {
+						    getsbs(key).then(function(data1) {
 
-							var urls = data1;
-							if (urls != 'invaild' && urls.includes('m3u8')) {
-
-								return_pipe(urls, resp, req);
-							} else {
-								resp.statusCode = 403;
-								resp.setHeader('Content-Type', 'text/plain; charset=utf-8');
-								resp.end('호출 실패');
-							}
-						});
-					}
-					if (myData == "mbc_lib") {
-						getmbc(key).then(function(data1) {
-
-							var urls = data1;
-							if (urls != 'invaild' && urls.includes('m3u8')) {
-								return_pipe(urls, resp, req);
-							} else {
-								resp.statusCode = 403;
-								resp.setHeader('Content-Type', 'text/plain; charset=utf-8');
-								resp.end('호출 실패');
-							}
-						});
-					}
-				} else {
-					var beforeEn = true;
-					var urls = myData
-					return_pipe(urls, resp, req);
-				}
-			} else {
-
-				resp.statusCode = 403;
-				resp.setHeader('Content-Type', 'text/plain; charset=utf-8');
-				resp.end('올바르지 않은 코드');
-			}
-		}else {
-
+							    var urls = data1;
+							    if (urls != 'invaild' && urls.includes('m3u8')) {
+								    return_pipe(urls, resp, req);
+							    } else {
+							    	resp.statusCode = 403;
+							    	resp.setHeader('Content-Type', 'text/plain; charset=utf-8');
+							    	resp.end('호출 실패');
+							    }
+						    });
+					    }
+						
+					    if (myData == "mbc_lib") {
+					    	getmbc(key).then(function(data1) {
+					    
+					    		var urls = data1;
+					    		if (urls != 'invaild' && urls.includes('m3u8')) {
+					    			return_pipe(urls, resp, req);
+					    		} else {
+					    			resp.statusCode = 403;
+					    			resp.setHeader('Content-Type', 'text/plain; charset=utf-8');
+					    			resp.end('호출 실패');
+					    		}
+					    	});
+					    }
+				    } else {
+				    	var beforeEn = true;
+				    	var urls = myData
+				    	return_pipe(urls, resp, req);
+				    }
+			    } else {
+			    
+			    	resp.statusCode = 403;
+			    	resp.setHeader('Content-Type', 'text/plain; charset=utf-8');
+			    	resp.end('올바르지 않은 코드');
+			    }
+		    } else {
+		    
+		    	resp.statusCode = 403;
+		    	resp.setHeader('Content-Type', 'text/plain; charset=utf-8');
+		    	resp.end('올바르지 않은 접근');
+		    }
+		} else {
 			resp.statusCode = 403;
 			resp.setHeader('Content-Type', 'text/plain; charset=utf-8');
 			resp.end('올바르지 않은 접근');
 		}
-	}else{
+	} else {
         resp.statusCode = 403;
         resp.setHeader('Content-Type', 'text/plain; charset=utf-8');
         resp.end('올바르지 않은 접근');
@@ -175,8 +183,7 @@ function getkbs(param) {
         } catch {
             resolve("invaild");
         }
-
-    })
+    });
 }
 
 function getmbc(ch) {
@@ -218,19 +225,18 @@ function getmbc(ch) {
                             var text2 = response2.data.split('m3u8?')[1].trim();
                             resolve('http://175.158.10.83/s' + mbc_ch[ch] + '/_definst_/' + mbc_ch[ch] + '.stream/playlist.m3u8?' + text2);
 
-
                         }).catch(e => {
-                            console.log(e)
+                            console.log(e);
                             resolve("invaild");
                         })
                 }).catch(e => {
-                    console.log(e)
+                    console.log(e);
                     resolve("invaild");
                 })
         } catch {
             resolve("invaild");
         }
-    })
+    });
 }
 
 function getsbs(ch) {
@@ -263,13 +269,13 @@ function getsbs(ch) {
 
                     resolve(response.data);
                 }).catch(e => {
-                    console.log(e)
+                    console.log(e);
                     resolve("invaild");
                 })
         } catch {
             resolve("invaild");
         }
-    })
+    });
 }
 
 liveServer.listen(port, '0.0.0.0', () => {
